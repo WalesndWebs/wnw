@@ -1,0 +1,11 @@
+# Protect admin folder
+AuthType Basic
+AuthName "Admin Area"
+AuthUserFile /dev/null
+Require all granted
+
+# Disable PHP execution in uploads (if you add uploads folder)
+<FilesMatch "\.(php|php\.|php3|php4|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
