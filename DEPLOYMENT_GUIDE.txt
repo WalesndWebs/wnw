@@ -1,0 +1,134 @@
+# DEPLOYMENT GUIDE
+# Wales & Webs - Google AI Studio → GitHub → Hostinger
+
+============================================
+STEP 1: GOOGLE AI STUDIO (Code Generation)
+============================================
+
+1. Open https://aistudio.google.com
+2. Click "New Project"
+3. Upload your frontend files (the zip I gave you)
+4. Use these prompts to generate backend code:
+
+PROMPT 1:
+"Generate a PHP login system with session management 
+for an admin dashboard. Include password hashing with 
+bcrypt and CSRF protection."
+
+PROMPT 2:
+"Create PHP CRUD API endpoints for managing case studies 
+with image upload, categories, and featured flags."
+
+PROMPT 3:
+"Generate a PHP email notification system using PHPMailer 
+that sends alerts when new contact forms are submitted."
+
+PROMPT 4:
+"Create a PHP blog/CMS system with WYSIWYG editor 
+integration for the admin dashboard."
+
+5. Copy the generated code into your project
+6. Test locally with XAMPP/WAMP first
+
+============================================
+STEP 2: GITHUB REPOSITORY
+============================================
+
+1. Create new repo on GitHub: github.com/new
+   Name: wales-and-webs
+   Make it Private
+
+2. In your project folder, run:
+
+   git init
+   git add .
+   git commit -m "Wales & Webs v1.0"
+   git branch -M main
+   git remote add origin https://github.com/YOURNAME/wales-and-webs.git
+   git push -u origin main
+
+3. Your code is now on GitHub!
+
+============================================
+STEP 3: HOSTINGER SETUP
+============================================
+
+A. BUY HOSTING (if you haven't):
+   - Go to hostinger.com
+   - Choose "Premium Shared Hosting" ($2.99/month)
+   - Register domain: walesandwebs.com
+   - Complete payment
+
+B. CREATE DATABASE:
+   1. Login to hPanel
+   2. Databases → MySQL Databases
+   3. Create:
+      - Database: wales_db
+      - Username: wales_user
+      - Password: (generate strong one)
+   4. Save these credentials!
+
+C. IMPORT DATABASE:
+   1. Databases → phpMyAdmin
+   2. Select your database
+   3. Import → Choose File → database/schema.sql
+   4. Click Go
+
+D. CONNECT GITHUB (Auto-Deploy):
+   1. hPanel → Websites → Manage
+   2. Go to Git section
+   3. Connect Repository:
+      - Platform: GitHub
+      - Authorize Hostinger
+      - Select: wales-and-webs repo
+      - Branch: main
+      - Directory: /public_html
+   4. Click Connect
+   5. Enable "Auto Deploy"
+
+E. UPDATE CONFIG:
+   1. File Manager → public_html/includes/config.php
+   2. Edit and add your database credentials:
+      DB_USER = your_hostinger_db_user
+      DB_PASS = your_hostinger_db_password
+      DB_NAME = your_hostinger_db_name
+   3. Save
+
+F. SET PERMISSIONS:
+   1. File Manager → Select all files
+   2. Right-click → Permissions
+   3. Folders: 755, Files: 644
+   4. config.php: 600 (more secure)
+
+============================================
+STEP 4: GO LIVE
+============================================
+
+1. Visit your domain: walesandwebs.com
+2. Test contact form
+3. Test newsletter signup
+4. Login to admin: walesandwebs.com/admin/
+   Default: admin / admin123
+5. CHANGE ADMIN PASSWORD IMMEDIATELY!
+
+============================================
+STEP 5: SSL & SECURITY
+============================================
+
+1. hPanel → SSL → Install Free SSL
+2. Wait for SSL to activate (few hours)
+3. Uncomment HTTPS redirect in .htaccess:
+   # RewriteCond %{HTTPS} off
+   # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+   Remove the # to enable
+
+4. Update admin password:
+   - Go to phpMyAdmin
+   - Run: UPDATE admin_users SET password_hash = '$2y$10$NEW_HASH' WHERE id = 1;
+   - Or generate new hash with PHP: password_hash('newpass', PASSWORD_BCRYPT);
+
+============================================
+DONE! YOUR SITE IS LIVE!
+============================================
+
+Questions? Check README.md for troubleshooting.
